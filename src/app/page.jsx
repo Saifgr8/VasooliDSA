@@ -92,7 +92,7 @@ const page = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center md:flex-row flex-col items-center min-h-screen dark:bg-gray-900 text-white gap-2">
+      <div className="flex justify-center md:flex-row flex-col items-center min-h-screen dark:bg-gray-900 dark:text-white text-black gap-2">
         <p>Loading leaderboard...</p>
         <div className="h-12 w-12 rounded-full border-blue-700 border-t-2 border-b-2 animate-spin"></div>
       </div>
