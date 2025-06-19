@@ -1,6 +1,5 @@
 import axios from "axios";
-
-export const API_BASE_URL = "https://vasoolidsabackend-2.onrender.com/api";
+import { API_BASE_URL } from "./auth";
 
 export const problemServices = {
   get: async (userId, jwt) => {

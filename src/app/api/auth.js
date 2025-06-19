@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "https://vasoolidsabackend-2.onrender.com/api";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
 
 export const authServices = {
   register: async (data) => {

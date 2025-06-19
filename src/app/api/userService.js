@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "./auth";
 
-export const API_BASE_URL = "https://vasoolidsabackend-2.onrender.com/api";
+
 export const userServices = {
   get: async () => {
     try {
