@@ -11,7 +11,6 @@ import { problemServices } from "@/app/api/problemService";
 import TimeComplexityStep from "./questionFormComponents/TimeCompleityStep";
 
 const EditProblemForm = ({ closeModal, problem, triggerChange }) => {
-  console.log(problem);
   const [currentStep, setCurrentStep] = useState(0);
   const [apiError, setApiError] = useState("");
   const totalSteps = 7;
@@ -36,9 +35,7 @@ const EditProblemForm = ({ closeModal, problem, triggerChange }) => {
       note: problem.solutions[0].notes,
     },
   });
-  console.log(errors);
 
-  console.log(watch());
 
   const stepFields = [
     ["problemStatement"],
@@ -56,7 +53,7 @@ const EditProblemForm = ({ closeModal, problem, triggerChange }) => {
     if (isStepValid && currentStep < totalSteps - 1) {
       setCurrentStep((prev) => prev + 1);
     } else if (!isStepValid) {
-      console.log("Validation failed here ", errors);
+      console.error("Validation failed here ", errors);
     }
   };
 
@@ -87,7 +84,6 @@ const EditProblemForm = ({ closeModal, problem, triggerChange }) => {
         },
         jwt
       );
-      console.log("updated problem is: ", response);
       triggerChange();
       closeModal();
     } catch (error) {

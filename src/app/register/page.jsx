@@ -32,7 +32,6 @@ const page = () => {
     formState: { errors },
   } = useForm();
 
-  console.log(watch());
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -82,12 +81,11 @@ const page = () => {
         password: data.password,
       });
 
-      console.log(responseData);
       reset();
       router.push("/login");
     } catch (error) {
       setErrorApi(error.message);
-      console.log("Error making call to axios", error.message);
+      console.error("Error making call to axios", error.message);
     }
   };
 

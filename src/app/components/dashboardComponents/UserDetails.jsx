@@ -19,7 +19,6 @@ const UserDetails = ({ user, triggerChange }) => {
   const toggleModal = () => {
     setEditModal((prev) => !prev);
   };
-  console.log(editModal);
   // Use useEffect to access localStorage only on the client-side
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -29,7 +28,6 @@ const UserDetails = ({ user, triggerChange }) => {
 
   const isViewingOwnProfile =
     authenticatedUserId && user?.id === authenticatedUserId;
-  console.log("isvering : ,", isViewingOwnProfile);
 
   return (
     <div className="w-full flex justify-center items-center">

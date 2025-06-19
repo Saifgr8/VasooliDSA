@@ -13,9 +13,7 @@ export const problemServices = {
           },
         }
       );
-      console.log(response.status);
       if (response.status === 200) {
-        console.log(response);
         return response.data;
       } else {
         throw new Error(response.data?.message || "Unable to fetch  data");
@@ -36,7 +34,6 @@ export const problemServices = {
     }
   },
   save: async (data, jwt) => {
-    console.log("saving data: ", data);
     try {
       const response = await axios.post(`${API_BASE_URL}/problem/save`, data, {
         headers: {
@@ -44,14 +41,12 @@ export const problemServices = {
           Authorization: jwt,
         },
       });
-      console.log("response is: ", response);
       if (response.status === 201 || response.status === 200) {
         return response.data;
       } else {
         throw new Error(response.data || "Save failed.");
       }
     } catch (error) {
-      console.log("errro is: ", error);
       if (axios.isAxiosError(error)) {
         let defaultErrorMessage = "An error occurred during saving problem.";
         const backendErrorData = error.response?.data;
@@ -135,7 +130,6 @@ export const problemServices = {
         throw new Error(response.data || "Failed here");
       }
     } catch (error) {
-      console.log(error);
       if (axios.isAxiosError(error)) {
         const errorMessage =
           error.response?.data?.message ||

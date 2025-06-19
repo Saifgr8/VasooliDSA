@@ -3,8 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const LanguageAndDifficultyStep = ({ register, errors }) => {
-  console.log("Errors prop in LanguageAndDifficultyStep:", errors);
-  console.log("Errors for programmingLanguage:", errors.programmingLanguage);
+ 
   const programmingLanguages = [
     "JavaScript",
     "Python",
@@ -19,7 +18,6 @@ const LanguageAndDifficultyStep = ({ register, errors }) => {
   ];
   const difficulties = ["Easy", "Medium", "Hard"];
   if (errors.programmingLanguage) {
-    console.log("ho");
   }
   return (
     <motion.div

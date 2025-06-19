@@ -23,7 +23,6 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
   const [authenticatedUserId, setAuthenticatedUserId] = useState(null);
   const [editModal, setEditModal] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
-  console.log(displayedList);
 
   const toggleFormModal = (arg) => {
     setFromModal((prev) => !prev);
@@ -100,11 +99,9 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
       console.error("JWT not found, pelase log in");
       return;
     }
-    console.log(problemId, jwt);
     try {
       const response = await problemServices.delete(problemId, jwt);
       triggerChange();
-      console.log("problem deleted.");
     } catch (error) {
       console.error(error.message);
       alert("Failed to delete problem due to: ", error.message);
@@ -126,7 +123,6 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
   }, []);
 
   const verifiedID = authenticatedUserId === displayedList[0]?.userId;
-  console.log(verifiedID);
   return (
     <div className="w-full ">
       <div className="max-w-4xl mx-auto bg-transparent p-6 rounded-xl shadow-lg font-inter">
@@ -142,24 +138,28 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
             />
 
             <div className="hidden md:flex flex-col justify-between items-start m-2 p-2 gap-2 whitespace-nowrap w-1/3">
-              <button
-                className="flex justify-center items-center gap-2 md:m-1 p-2 rounded-lg cursor-pointer shadow-lg shadow-slate-800 dark:shadow-white bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out transform hover:scale-105"
-                type="button"
-                onClick={toggleFormModal}
-              >
-                Add Question
-              </button>
+              {verifiedID && (
+                <button
+                  className="flex justify-center items-center gap-2 md:m-1 p-2 rounded-lg cursor-pointer shadow-lg shadow-slate-800 dark:shadow-white bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out transform hover:scale-105"
+                  type="button"
+                  onClick={toggleFormModal}
+                >
+                  Add Question
+                </button>
+              )}
             </div>
           </div>
           <div className="flex flex-row justify-center md:justify-end items-center gap-4 w-full sm:w-1/2">
             <div className=" md:hidden flex flex-col justify-between items-start m-2 p-2 gap-2 whitespace-nowrap w-1/3">
-              <button
-                className="flex justify-center items-center gap-2 md:m-1 p-2 rounded-lg cursor-pointer shadow-lg shadow-slate-800 dark:shadow-white bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out transform hover:scale-105"
-                type="button"
-                onClick={toggleFormModal}
-              >
-                Add Question
-              </button>
+              {verifiedID && (
+                <button
+                  className="flex justify-center items-center gap-2 md:m-1 p-2 rounded-lg cursor-pointer shadow-lg shadow-slate-800 dark:shadow-white bg-blue-600 text-white font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out transform hover:scale-105"
+                  type="button"
+                  onClick={toggleFormModal}
+                >
+                  Add Question
+                </button>
+              )}
             </div>
             {/* Difficulty Filter Dropdown */}
             <select

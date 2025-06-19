@@ -27,7 +27,6 @@ const Page = () => {
   //dashboard states
   const [targetUserDashboardId, setTargetUserDashboardId] = useState(null);
 
-  console.log(targetUserDashboardId, solvedProblemList, user);
 
   const bounce = [0, 1, 2]; // For loading animation
   const dispatch = useDispatch();
@@ -97,7 +96,6 @@ const Page = () => {
     const userIdFromUrl = searchParams.get("userId");
     const userIdFromLocalStorage = localStorage.getItem("userId");
     const determinedId = userIdFromUrl || userIdFromLocalStorage;
-    console.log(determinedId);
     setTargetUserDashboardId(determinedId);
   }, [searchParams]);
 

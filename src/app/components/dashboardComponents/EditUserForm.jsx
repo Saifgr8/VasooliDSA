@@ -33,7 +33,6 @@ const EditUserForm = ({ user, triggerChange, onClose }) => {
   useEffect(() => {
     setProfilePicPreview(watchedProfilePicUrl);
   }, [watchedProfilePicUrl]);
-  console.log(watch());
 
   // Handle form submission
   const onSubmit = async (data) => {

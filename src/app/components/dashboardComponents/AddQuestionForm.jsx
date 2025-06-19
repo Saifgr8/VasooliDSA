@@ -30,9 +30,7 @@ const AddQuestionForm = ({ closeModal, triggerChange }) => {
     mode: "onTouched",
     reValidateMode: "onChange",
   });
-  console.log(errors);
 
-  console.log(watch());
   const router = useRouter();
 
   const stepFields = [
@@ -52,7 +50,7 @@ const AddQuestionForm = ({ closeModal, triggerChange }) => {
     if (isStepValid && currentStep < totalSteps - 1) {
       setCurrentStep((prev) => prev + 1);
     } else if (!isStepValid) {
-      console.log("Validation failed here ", errors);
+      console.error("Validation failed here ", errors);
     }
   };
 
@@ -65,8 +63,7 @@ const AddQuestionForm = ({ closeModal, triggerChange }) => {
   const mySubmit = async (data) => {
     setApiError("");
     const jwt = localStorage.getItem("JWTtoken");
-    console.log("token attaching to request is" + jwt);
-    console.log("data attached is " + data);
+   
     try {
       const backendResponse = await problemServices.save(
         {
@@ -81,7 +78,6 @@ const AddQuestionForm = ({ closeModal, triggerChange }) => {
         },
         jwt
       );
-      console.log(backendResponse);
       reset();
       triggerChange();
       closeModal();
@@ -114,7 +110,6 @@ const AddQuestionForm = ({ closeModal, triggerChange }) => {
   };
 
   const onErrors = (errors) => {
-    console.log("Error while submitting form", errors);
   };
   return (
     <div className="w-full flex justify-center items-center dark:text-white ">
