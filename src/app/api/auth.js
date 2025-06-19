@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE_URL = "http://localhost:8080/api";
+export const API_BASE_URL = "https://vasoolidsabackend-2.onrender.com/api";
 
 export const authServices = {
   register: async (data) => {
