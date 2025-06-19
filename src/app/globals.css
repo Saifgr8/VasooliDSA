@@ -1,9 +1,6 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -11,16 +8,76 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+  /* Ensure height is not too restrictive, let content dictate */
+  height: 5em;
+}
+
+/* Style for individual navigation arrows (<< < > >>) */
+.react-calendar__navigation__arrow {
+  /* Use !important sparingly, mostly for properties react-calendar is very strict about */
+  @apply bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-md mx-1;
+
+  /* Crucial: Ensure these don't override critical internal styles for click events */
+  /* Remove 'border: none !important;' if it breaks functionality,
+     or only apply it if it's explicitly needed and you test thoroughly.
+     Often, react-calendar uses border for focus/active states. */
+  border: none; /* Try without !important first */
+  /* If you removed !important from border and it still looks bad,
+     you might need to target .react-calendar__navigation__arrow:focus, :hover
+     and explicitly set outline: none; or background-color: transparent; */
+
+  min-width: 30px;
+  /* Line height and font size were good for appearance, keep them if needed */
+  line-height: 1;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Ensure cursor is pointer for clickability */
+  cursor: pointer;
+}
+
+/* Style for the month/year label (e.g., "May 2025") */
+.react-calendar__navigation__label {
+  @apply flex-grow text-center font-semibold text-lg text-gray-900 dark:text-white mx-2;
+
+  /* The primary issue usually comes from overriding the label's button behavior. */
+  /* Set background and border to transparent if they were overriding functionality */
+  background-color: transparent;
+  border: none;
+
+  
+  cursor: pointer; /* Keep it clickable by default */
+
+
+}
+
+.react-calendar__tile:enabled:hover
+ {
+  background-color: #e6e6e6; /* A subtle light gray hover for non-active dates */
+  @apply dark:bg-gray-700; /* Dark mode hover for non-active dates */
+  cursor: pointer;
+}
+.react-calendar__tile {
+  /* This creates internal spacing, making the 'date' number appear smaller relative to the tile */
+  padding: 0.3em 0.5em !important; /* Adjust these values as needed */
+  /* This ensures the tile is square or has a consistent size */
+  height: 2.8em !important; /* Adjust height to control overall cell size */
+  width: 2.8em !important;  /* Adjust width to control overall cell size */
+  display: flex; /* Use flexbox to center the date number */
+  justify-content: center;
+  align-items: center;
 }
