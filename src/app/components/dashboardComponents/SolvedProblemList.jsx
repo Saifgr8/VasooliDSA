@@ -323,7 +323,7 @@ export const SolvedProblemList = ({
           </ul>
         ) : (
           <p className="text-center text-gray-500 text-lg py-8">
-            No problems found matching your criteria, Please try again.
+            No problems solved yet.
           </p>
         )}
       </div>
