@@ -6,12 +6,11 @@ import { useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa"; // Import for default profile picture
 import EditUserForm from "./EditUserForm";
 
-const UserDetails = ({ user, triggerChange }) => {
+const UserDetails = ({ user, triggerChange, targetUserDashboard }) => {
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
   const apiError = useSelector((state) => state.auth.apiError);
 
   // State to hold the authenticated user's ID from localStorage
-  const [authenticatedUserId, setAuthenticatedUserId] = useState(null);
   const [editModal, setEditModal] = useState(false);
 
   const handleEditUser = async () => {};
@@ -19,16 +18,11 @@ const UserDetails = ({ user, triggerChange }) => {
   const toggleModal = () => {
     setEditModal((prev) => !prev);
   };
-  // Use useEffect to access localStorage only on the client-side
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setAuthenticatedUserId(localStorage.getItem("userId"));
-    }
-  }, []);
 
-  const isViewingOwnProfile =
-    authenticatedUserId && user?.id === authenticatedUserId;
+  const isViewingOwnProfile = targetUserDashboard;
 
+  const error = !isAuthenticated || apiError;
+  console.log("same viewer: ", isViewingOwnProfile, "error is: ", error);
   return (
     <div className="w-full flex justify-center items-center">
       {" "}
@@ -58,26 +52,41 @@ const UserDetails = ({ user, triggerChange }) => {
             )}
             <div className="flex flex-col text-left justify-start items-start">
               <div className="flex flex-col justify-start items-start">
-                <h2 className="text-2xl font-bold text-blue-600 whitespace-nowrap">
-                  {user?.username || "N/A"}
-                </h2>
-                <p className="text-blue-600  text-base">
-                  {user?.email || "N/A"}
-                </p>
+                {user?.username ? (
+                  <h2 className="text-2xl font-bold text-blue-600 mb-1 whitespace-nowrap">
+                    {user?.username}
+                  </h2>
+                ) : (
+                  <div className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse m-2"></div>
+                )}
+                {user?.email ? (
+                  <h2 className="text-2xl font-bold text-blue-600 mb-1 whitespace-nowrap">
+                    {user?.email}
+                  </h2>
+                ) : (
+                  <div className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse m-2"></div>
+                )}
               </div>
               <div className="flex flex-col  text-lg text-gray-300">
                 <span className="font-semibold text-blue-600 whitespace-nowrap">
                   Joined on:
                 </span>
                 <span className="text-blue-600 whitespace-nowrap">
-                  {user?.createdOn
-                    ? new Date(user.createdOn).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
-                    : "N/A"}
+                  {user?.createdOn ? (
+                    new Date(user.createdOn).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  ) : (
+                    <div className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse m-2"></div>
+                  )}
                 </span>
+                {error && (
+                  <p className="text-red-500 italic text-sm">
+                    Please login to see these details.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -105,10 +114,20 @@ const UserDetails = ({ user, triggerChange }) => {
           ) : (
             <FaUserCircle className="w-20 h-20 text-gray-400 dark:text-gray-300 mb-4" />
           )}
-          <h2 className="text-2xl font-bold text-blue-600 mb-1 whitespace-nowrap">
-            {user?.username || "N/A"}
-          </h2>
-          <p className="text-blue-600 text-base mb-2">{user?.email || "N/A"}</p>
+          {user?.username ? (
+            <h2 className="text-2xl font-bold text-blue-600 mb-1 whitespace-nowrap">
+              {user?.username}
+            </h2>
+          ) : (
+            <div className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse m-2"></div>
+          )}
+          {user?.email ? (
+            <h2 className="text-2xl font-bold text-blue-600 mb-1 whitespace-nowrap">
+              {user?.email}
+            </h2>
+          ) : (
+            <div className="h-8 w-48 bg-gray-300 dark:bg-gray-700 rounded animate-pulse m-2"></div>
+          )}
 
           <div className="text-lg text-gray-300 mb-4">
             <span className="font-semibold text-blue-600">Joined on: </span>
@@ -122,7 +141,11 @@ const UserDetails = ({ user, triggerChange }) => {
                 : "N/A"}
             </span>
           </div>
-
+          {error && (
+            <p className="text-red-500 italic text-sm">
+              Please login to see these details.
+            </p>
+          )}
           {isAuthenticated && !apiError && isViewingOwnProfile && (
             <MyButton
               onClick={toggleModal}

@@ -9,7 +9,11 @@ import { useSelector } from "react-redux";
 import AddQuestionForm from "./AddQuestionForm";
 import MyButton from "../MyButton";
 
-export const SolvedProblemList = ({ arr, triggerChange }) => {
+export const SolvedProblemList = ({
+  arr,
+  triggerChange,
+  targetUserDashboard,
+}) => {
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [formModal, setFromModal] = useState(false);
 
@@ -20,7 +24,6 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
   const [selectedLanguagePerProblem, setSelectedLanguagePerProblem] = useState(
     {}
   );
-  const [authenticatedUserId, setAuthenticatedUserId] = useState(null);
   const [editModal, setEditModal] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
@@ -116,13 +119,7 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
     setEditModal(false);
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setAuthenticatedUserId(localStorage.getItem("userId"));
-    }
-  }, []);
-
-  const verifiedID = authenticatedUserId === displayedList[0]?.userId;
+  const verifiedID = targetUserDashboard;
   return (
     <div className="w-full ">
       <div className="max-w-4xl mx-auto bg-transparent p-6 rounded-xl shadow-lg font-inter">
@@ -202,21 +199,21 @@ export const SolvedProblemList = ({ arr, triggerChange }) => {
                   key={problem.id} // *** Use problem.id as key for better stability ***
                   className="p-4 rounded-lg hover:shadow-md transition duration-200 ease-in-out shadow-inner shadow-white dark:bg-slate-800 bg-blue-100/20 hover:bg-blue-200/50 dark:hover:bg-slate-900"
                 >
-                  <div className="flex">
-                    <div className="w-1/2">
+                  <div className="flex w-full justify-between items-center">
+                    <div className="">
                       <h3 className="text-xl font-semibold text-gray-900 mb-1">
                         <a
                           href={problem.problemLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline whitespace-nowrap"
+                          className="text-blue-600 hover:underline w-full"
                         >
                           {problem.problemName}
                         </a>
                       </h3>
                     </div>
                     {isAuthenticated && verifiedID && (
-                      <div className="w-1/2 flex justify-end items-center gap-3">
+                      <div className=" flex justify-end items-center gap-3">
                         <button
                           type="button"
                           onClick={() => onEditClick(problem)}

@@ -26,7 +26,7 @@ const Page = () => {
 
   //dashboard states
   const [targetUserDashboardId, setTargetUserDashboardId] = useState(null);
-
+  const [isLoggedInUser, setIsLoggedInUser] = useState(true);
 
   const bounce = [0, 1, 2]; // For loading animation
   const dispatch = useDispatch();
@@ -95,6 +95,11 @@ const Page = () => {
   useEffect(() => {
     const userIdFromUrl = searchParams.get("userId");
     const userIdFromLocalStorage = localStorage.getItem("userId");
+    if (userIdFromUrl === null) {
+      setIsLoggedInUser(true);
+    } else if (userIdFromUrl !== userIdFromLocalStorage) {
+      setIsLoggedInUser(false);
+    }
     const determinedId = userIdFromUrl || userIdFromLocalStorage;
     setTargetUserDashboardId(determinedId);
   }, [searchParams]);
@@ -122,11 +127,19 @@ const Page = () => {
     <ThemeProvider>
       <div className="flex flex-col justify-center items-center dark:text-white min-h-screen bg-radial-[at_25%_25%] from-white to-slate-400 to-75% dark:bg-radial-[at_25%_25%] dark:from-slate-500 dark:to-slate-900 dark:to-75%">
         <div className="w-full">
-          <UserDetails user={user} triggerChange={handleRefresh} />{" "}
+          <UserDetails
+            user={user}
+            triggerChange={handleRefresh}
+            targetUserDashboard={isLoggedInUser}
+          />{" "}
           {/* UserDetails will read user from Redux */}
         </div>
         <div className="w-full">
-          <Calender solvedProblems={solvedProblemList} user={user} />
+          <Calender
+            solvedProblems={solvedProblemList}
+            user={user}
+            targetUserDashboard={isLoggedInUser}
+          />
         </div>
         <div className="w-full">
           {overallLoading ? ( // Use overallLoading
@@ -157,6 +170,7 @@ const Page = () => {
             <div className="w-full">
               <SolvedProblemList
                 arr={solvedProblemList}
+                targetUserDashboard={isLoggedInUser}
                 triggerChange={handleRefresh}
               />
             </div>
