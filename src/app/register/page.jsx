@@ -12,10 +12,10 @@ import { authServices } from "../api/auth";
 import { useRouter } from "next/navigation";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { API_BASE_URL } from "../api/userService";
+import { API_BASE_URL } from "../api/auth";
 import { useDispatch } from "react-redux";
 import { loginSucess } from "../redux/slices/authSlice";
-import { setApiError } from "../redux/slices/authSlice";
+import { setApiError, clearApiError } from "../redux/slices/authSlice";
 
 const page = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -55,7 +55,10 @@ const page = () => {
         dispatch(loginSucess({ userId: response.data.id, token: jwt }));
         dispatch(clearApiError());
         setErrorApi("");
-        router.push("/");
+        window.alert("Login successful, redirecting to home page");
+        setTimeout(() => {
+          router.push("/");
+        }, 500);
       }
     } catch (error) {
       setErrorApi(error.message);
@@ -82,10 +85,12 @@ const page = () => {
       });
 
       reset();
-      router.push("/login");
+      window.alert("Registration successful, redirecting to login page");
+      setTimeout(() => {
+        router.push("/login");
+      }, 500);
     } catch (error) {
       setErrorApi(error.message);
-      console.error("Error making call to axios", error.message);
     }
   };
 
@@ -97,10 +102,12 @@ const page = () => {
         <div className="flex flex-col justify-center items-center min-h-screen w-full dark:bg-slate-900 dark:text-white relative text-center">
           <Lottie animationData={cube} className="lg:h-2/3 lg:w-2/3" />
           <form
-            className="w-1/2 lg:w-1/3 absolute bg-white/30 dark:bg-slate-600/20 backdrop-blur-md m-2 p-2 rounded-xl "
+            className="w-2/3 lg:w-1/3 absolute bg-white/30 dark:bg-slate-600/20 backdrop-blur-md m-2 p-2 rounded-xl "
             onSubmit={handleSubmit(mySubmit)}
           >
-            <span className="text-black md:text-4xl text-xl ">Register</span>
+            <span className="text-black dark:text-white md:text-4xl text-xl ">
+              Register
+            </span>
             <div className="flex flex-col justify-evenly items-start ">
               <label
                 htmlFor="username"
@@ -154,16 +161,16 @@ const page = () => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <BiSolidHide className="h-4 w-4 md:h-6 md:w-6" />
+                    <BiSolidHide className="h-4 w-4 md:h-6 md:w-6 dark:text-black" />
                   ) : (
-                    <BiSolidShow className="h-4 w-4 md:h-6 md:w-6" />
+                    <BiSolidShow className="h-4 w-4 md:h-6 md:w-6 dark:text-black" />
                   )}
                 </button>
               </div>
               {errors.password && <span>{errors.password.message}</span>}
             </div>
             <button className="px-4 py-2 bg-transparent rounded-xl shadow-xl mt-1 dark:shadow-white shadow-slate-800 cursor-pointer">
-              Sign in
+              Sign up
             </button>
             <hr className="m-3" />
             <div className="flex flex-col justify-center items-center">

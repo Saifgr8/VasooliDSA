@@ -56,7 +56,10 @@ const page = () => {
       if (jwt) {
         dispatch(loginSucess({ userId: backendRresponse.data.id, token: jwt }));
         dispatch(clearApiError());
-        router.push("/");
+        window.alert("Login successful, redirecting to home page");
+        setTimeout(() => {
+          router.push("/");
+        }, 500);
       } else {
         throw new Error("Backend did not return a JWT token.");
       }
@@ -100,10 +103,13 @@ const page = () => {
 
       const jwt = responseData.headers.authorization;
 
-      dispatch(loginSucess({ user: backendRresponse.data, token: jwt }));
+      dispatch(loginSucess({ userId: responseData.data.id, token: jwt }));
 
       reset();
-      router.push("/");
+      window.alert("Login successful, redirecting to home page");
+      setTimeout(() => {
+        router.push("/");
+      }, 500);
     } catch (error) {
       setErrorApi(error.message);
     }
@@ -115,7 +121,7 @@ const page = () => {
         <Lottie animationData={brain} />
         <form
           onSubmit={handleSubmit(mySubmit)}
-          className="w-1/2 md:w-1/3 absolute bg-white/30 dark:bg-slate-600/20 backdrop-blur-md m-2 p-2 rounded-xl"
+          className="w-2/3 md:w-1/3 absolute bg-white/30 dark:bg-slate-600/20 backdrop-blur-md m-2 p-2 rounded-xl"
         >
           <span className="text-black dark:text-white md:text-4xl text-xl ">
             Login
@@ -157,16 +163,16 @@ const page = () => {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <BiSolidHide className="h-4 w-4 md:h-6 md:w-6" />
+                  <BiSolidHide className="h-4 w-4 md:h-6 md:w-6 dark:text-black" />
                 ) : (
-                  <BiSolidShow className="h-4 w-4 md:h-6 md:w-6" />
+                  <BiSolidShow className="h-4 w-4 md:h-6 md:w-6 dark:text-black" />
                 )}
               </button>
             </div>
             {errors.password && <span>{errors.password.message}</span>}
           </div>
           <div className="flex justify-center items-center mb-4">
-            <button className="px-4 py-2 bg-transparent rounded-xl shadow-xl mt-1 dark:shadow-white shadow-slate-800 cursor-pointer dark:text-black">
+            <button className="px-4 py-2 bg-transparent rounded-xl shadow-xl mt-1 dark:shadow-white shadow-slate-800 cursor-pointer dark:text-white">
               Log in
             </button>
           </div>
