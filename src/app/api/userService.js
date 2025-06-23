@@ -1,7 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "./auth";
 
-
 export const userServices = {
   get: async () => {
     try {
